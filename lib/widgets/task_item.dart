@@ -19,13 +19,56 @@ class TaskItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(task.category),
-        trailing: Checkbox(
-          value: task.isCompleted,
-          onChanged: (value) {
-            taskProvider.toggleTaskStatus(task.id);
-          },
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: task.isCompleted,
+              onChanged: (value) {
+                taskProvider.toggleTaskStatus(task.id);
+              },
+            ),
+            IconButton(
+              onPressed: () {
+                _confirmDelete(context, taskProvider, task.id);
+              },
+              icon: const Icon(Icons.delete),
+              color: Colors.red,
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+void _confirmDelete(
+  BuildContext context,
+  TaskProvider taskProvider,
+  String taskId,
+) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('confirmar eliminacion'),
+        content: const Text('estas seguro que deseas eliminar esta tarea'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              taskProvider.deleteTask(taskId);
+              Navigator.of(context).pop();
+            },
+            child: const Text('eliminar'),
+          ),
+        ],
+      );
+    },
+  );
 }

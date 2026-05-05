@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/providers/task_provider.dart';
+import 'package:todo_list/screens/task_form_screen.dart';
 import 'package:todo_list/screens/task_list_screen.dart';
+import 'package:todo_list/theme/app_theme.dart';
 
 void main()=> runApp(
   MultiProvider(providers: [ChangeNotifierProvider(create: (_) => TaskProvider())],
@@ -18,11 +20,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-      
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const TaskListScreen(),
+      theme: AppTheme.lightTheme,
+      routes: {
+        '/': (context) => const TaskListScreen(),
+        '/add-task': (context) => const TaskFormScreen(),
+      },
     );
   }
 }
